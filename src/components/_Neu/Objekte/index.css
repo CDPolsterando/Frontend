@@ -1,0 +1,35 @@
+/* - - - alle - - - */
+table,
+th,
+td {
+  border: 1px solid black;
+}
+table {
+  width: 100%;
+}
+
+/* - - - produktkatalog - - - */
+table.produkte {
+  /* background: red; */
+
+  border-collapse: collapse;
+}
+
+table.produkte tr.header th {
+  padding: 10px 0 10px 0;
+}
+table.produkte tr.kategorie td {
+  font-weight: bold;
+  /* border-bottom: 1px solid red; */
+}
+table.produkte tr.produkt td {
+  text-align: center;
+}
+
+/* - - - gebuchte objekte - - - */
+table.objekte {
+  border-collapse: collapse;
+}
+table.objekte tr.gesamt {
+  font-weight: bold;
+}

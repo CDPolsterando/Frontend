@@ -1,0 +1,5 @@
+export const CHANGE_NAME = 'auftrag/CHANGE_NAME'
+export const CHANGE_PLZ = 'auftrag/CHANGE_PLZ'
+export const ADD_OBJECT = 'auftrag/ADD_OBJECT'
+export const CHANGE_OBJECT = 'auftrag/CHANGE_OBJECT'
+export const REMOVE_OBJECT = 'auftrag/REMOVE_OBJECT'

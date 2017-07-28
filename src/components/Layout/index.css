@@ -1,0 +1,35 @@
+header {
+  background: white;
+  height: 60px;
+  border-bottom: 1px solid grey;
+  display: flex;
+}
+header a.logo {
+  height: 100%;
+  padding: 5px 10px;
+  display: block;
+}
+header a.logo img {
+  height: 100%;
+  display: block;
+}
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+header nav a {
+  color: RGBA(81, 86, 84, 1.00);
+  font-size: 20px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+header nav a.active {
+  color: black;
+  border-bottom-color: black;
+}
+main {
+  padding-top: 30px;
+}

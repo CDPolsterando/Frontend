@@ -1,0 +1,10 @@
+.rechner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.rechner div {
+  width: 50%;
+  background: red;
+  margin: 2px;
+}

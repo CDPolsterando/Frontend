@@ -1,0 +1,16 @@
+.ja_oder_nein {
+  display: flex;
+}
+.ja_oder_nein a {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid black;
+  background: white;
+  margin: 5px;
+  color: black;
+  text-decoration: none;
+}
+.ja_oder_nein a:hover {
+  background: black;
+  color: white;
+}
