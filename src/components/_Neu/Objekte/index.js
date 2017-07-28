@@ -180,6 +180,7 @@ class Objekte extends Component {
                         {objekt.qm !== undefined
                           ? <input
                               value={objekt.qm}
+                              placeholder="1"
                               onChange={this.qmAendern(objekt, i)}
                             />
                           : null}

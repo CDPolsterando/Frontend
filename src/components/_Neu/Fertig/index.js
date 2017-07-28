@@ -55,7 +55,14 @@ BITTE IMMER FOLGENDE DINGE BEACHTEN:
 }
 const Fertig = ({ state }) =>
   <Container>
-    <div />
+    <div>
+      <p>
+        Name: {state.name}
+      </p>
+      <p>
+        PLZ: {state.plz}
+      </p>
+    </div>
     <div>
       <pre>
         {anmerkung(state)}
