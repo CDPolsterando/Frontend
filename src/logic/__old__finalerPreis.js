@@ -1,3 +1,4 @@
+// netto -> brutto  = 1.19
 const getMindestpreis = (
   {
     stundensatz_fahrt,
@@ -9,7 +10,7 @@ const getMindestpreis = (
     mindest_marge
   },
   { produkte, fahrzeit, fahrstrecke },
-  { arbeitszeit, marge }
+  { arbeitszeit }
 ) => {
   /*
   ((Fahrzeit*StundensatzFahrt*1,31*2)+
@@ -83,13 +84,13 @@ const getInfo = (konstanten, input) => {
   }, 0)
 
   const marge = getMarge(konstanten, input, { arbeitszeit, bruttopreis })
+  const mindestpreis = getMindestpreis(konstanten, input, {
+    arbeitszeit
+  })
 
   return {
     marge,
-    mindestpreis: getMindestpreis(konstanten, input, {
-      arbeitszeit,
-      marge
-    })
+    mindestpreis
   }
 }
 

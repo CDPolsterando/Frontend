@@ -54,7 +54,7 @@ BITTE IMMER FOLGENDE DINGE BEACHTEN:
 `
 }
 const Fertig = ({ state }) =>
-  <Container>
+  <Container routeName="fertig">
     <div>
       <p>
         Name: {state.name}

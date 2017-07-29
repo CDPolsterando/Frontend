@@ -61,7 +61,7 @@ class Objekte extends Component {
           {
             name: 'Sessel',
             einzelpreis_netto: 41.18,
-            eizelpreis_brutto: 49.0,
+            einzelpreis_brutto: 49.0,
             einzelzeit: 45
           }
         ]
@@ -73,7 +73,7 @@ class Objekte extends Component {
           {
             name: 'kleiner Teppich',
             einzelpreis_netto: 7,
-            eizelpreis_brutto: 7,
+            einzelpreis_brutto: 7,
             einzelzeit: 10
           }
         ]
@@ -100,7 +100,7 @@ class Objekte extends Component {
               {produkt.einzelpreis_netto} €
             </td>
             <td>
-              {produkt.eizelpreis_brutto} €
+              {produkt.einzelpreis_brutto} €
             </td>
             <td>
               {produkt.einzelzeit} minuten
@@ -122,7 +122,7 @@ class Objekte extends Component {
 
     const { objekte } = this.props
     return (
-      <Container>
+      <Container routeName="objekte">
         <div>
           {loading ? <p>Loading...</p> : null}
 
@@ -150,26 +150,6 @@ class Objekte extends Component {
                 <th>Preis</th>
                 <th>Aktionen</th>
               </tr>
-              {/* {this.state.gebuchteObjekte.map((objekt, i) =>
-                <tr key={objekt.name}>
-                  <td>
-                    {objekt.name}
-                  </td>
-                  <td>
-                    <input
-                      value={objekt.anzahl}
-                      onChange={this.anzahlAendern(objekt, i)}
-                    />
-                  </td>
-                  <td>
-                    {objekt.preis} €
-                  </td>
-                  <td>+</td>
-                  <td>
-                    <button onClick={this.objektEntfernen(i)}>Entfernen</button>
-                  </td>
-                </tr>
-              )} */}
               {objekte.length > 0
                 ? objekte.map((objekt, i) =>
                     <tr key={objekt.key}>
@@ -179,7 +159,7 @@ class Objekte extends Component {
                       <td>
                         {objekt.qm !== undefined
                           ? <input
-                              value={objekt.qm}
+                              value={objekt.qm || ''}
                               placeholder="1"
                               onChange={this.qmAendern(objekt, i)}
                             />
@@ -187,8 +167,8 @@ class Objekte extends Component {
                       </td>
                       <td>
                         {objekt.qm
-                          ? objekt.eizelpreis_brutto * objekt.qm
-                          : objekt.eizelpreis_brutto}{' '}
+                          ? objekt.einzelpreis_brutto * objekt.qm
+                          : objekt.einzelpreis_brutto}{' '}
                         €
                       </td>
                       <td>

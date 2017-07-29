@@ -6,19 +6,24 @@ import getGesamtZeit from '../../../logic/gesamtZeit'
 import './index.css'
 import Speech from '../../Speech'
 import Marge from '../../Marge'
-import getFinalPrice from '../../../logic/finalerPreis'
 
-// const x = () => {
-
-// }
-// nenner 100
-// zähler 50
-// 50%
-
-// 50
-// 0.5
+import { margeVonPreis, preisVonMarge } from '../../../logic/preis'
+import gesamtZeit from '../../../logic/gesamtZeit'
 
 class Preis extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      ausgehandelterPreis: ''
+    }
+  }
+  changeAusgehandelterPreis = event => {
+    // TODO: add ausgehandelterPreis to redux
+    const value = event.target.value
+    this.setState({
+      ausgehandelterPreis: value
+    })
+  }
   render() {
     const {
       objekte,
@@ -27,8 +32,9 @@ class Preis extends Component {
       mindestpreis,
       marge
     } = this.props
+    const { ausgehandelterPreis } = this.state
     return (
-      <Container>
+      <Container routeName="preis">
         <div>
           <h2>Übersicht Objekte</h2>
           <pre>
@@ -45,30 +51,23 @@ class Preis extends Component {
         </div>
         <div>
           <Marge {...this.props} />
+          <p>
+            Mindestpreis (mit anfahrt, stundenlohn, ... + 5% Marge):{' '}
+            {mindestpreis.toFixed(2)} €
+          </p>
 
-          <div className="rechner">
-            <div>
-              <p>Marge manuell eingeben</p>
-            </div>
-            <div>
-              <p>Preis manuell eingeben</p>
-            </div>
-          </div>
+          <hr />
+
           <div>
-            <p>
-              Mindestpreis: {mindestpreis.toFixed(2)}
-            </p>
-            <p>
-              Marge: {this.props.marge}
-            </p>
+            <Speech text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor." />
+            <label>
+              Ausgehandelter Preis:
+              <input
+                value={ausgehandelterPreis}
+                onChange={this.changeAusgehandelterPreis}
+              />
+            </label>
           </div>
-          <Speech text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor." />
-          <div>
-            <p>Ausgehandelter Preis:</p>
-          </div>
-          <pre>
-            {JSON.stringify(this.props, null, 2)}
-          </pre>
         </div>
       </Container>
     )
@@ -103,11 +102,14 @@ const mapStateToProps = state => ({
   gesamt_preis: getGesamtPreis(state.objekte),
   gesamt_zeit: getGesamtZeit(state.objekte),
 
-  // mindestpreis, marge
-  ...getFinalPrice(konstanten, {
-    produkte: state.objekte,
-    fahrzeit: 40.266666,
-    fahrstrecke: 49.135
-  })
+  mindestpreis: preisVonMarge(
+    konstanten,
+    {
+      fahrzeit: 40.266666,
+      fahrstrecke: 49.135,
+      arbeitszeit: gesamtZeit(state.objekte)
+    },
+    0.05
+  )
 })
 export default connect(mapStateToProps)(Preis)
