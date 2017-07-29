@@ -1,10 +1,23 @@
-.rechner {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+.mindestpreis {
+  margin: 30px 0 30px 0;
 }
-.rechner div {
-  width: 50%;
-  background: red;
-  margin: 2px;
+
+.preis_setzen {
+  margin-top: 30px;
+}
+.preis_setzen__label {
+}
+.preis_setzen__button {
+  background: white;
+  border: 1px solid black;
+  margin: 0 10px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  transition: color 0.4s, background 0.4s;
+}
+.preis_setzen__button:hover {
+  background: black;
+  color: white;
 }

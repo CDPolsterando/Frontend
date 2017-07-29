@@ -21,31 +21,51 @@ class Kunde extends Component {
     this.state = {
       standort: null
     }
-    this.typingTimer
+    // this.typingTimer
   }
   searchPlz(plz) {
-    clearTimeout(this.typingTimer)
-    this.typingTimer = setTimeout(() => {
-      // console.log('yes')
+    if (plz.length === 5) {
+      this.props.dispatch({ type: 'STANDORT_BERECHNEN' })
 
-      fetch('http://192.168.8.100:5010/dis?zip=' + plz)
-        .then(res => res.json())
-        .then(standort => {
-          this.props.dispatch(
-            changeStandort({
-              fahrzeit: standort.Zeit,
-              fahrstrecke: standort.Strecke
-            })
-          )
-          console.log('standort: ', standort)
-          this.setState({ standort })
-        })
-        .catch(err => {
-          console.error('Error while fetching standort: ', err)
-        })
+      setTimeout(() => {
+        this.props.dispatch({ type: 'STANDORT_FERTIG' })
 
-      // this.props.dispatch(searchPlz(plz))
-    }, 1000)
+        // TODO: set zeit & streck for other reducer
+
+        // this.props.dispatch({ type: 'STANDORT_FERTIG' })
+      }, 1000)
+
+      // fetch('http://192.168.8.100:5010/dis?zip=' + plz)
+      //   .then(res => res.json())
+      //   .then(standort => {
+      const standort = { Zeit: 40, Strecke: 10, Stadt: 'Koeln' }
+
+      this.setState({ standort })
+      // })
+    }
+
+    // clearTimeout(this.typingTimer)
+    // this.typingTimer = setTimeout(() => {
+    //   // console.log('yes')
+
+    //   fetch('http://192.168.8.100:5010/dis?zip=' + plz)
+    //     .then(res => res.json())
+    //     .then(standort => {
+    //       this.props.dispatch(
+    //         changeStandort({
+    //           fahrzeit: standort.Zeit,
+    //           fahrstrecke: standort.Strecke
+    //         })
+    //       )
+    //       console.log('standort: ', standort)
+    //       this.setState({ standort })
+    //     })
+    //     .catch(err => {
+    //       console.error('Error while fetching standort: ', err)
+    //     })
+
+    //   // this.props.dispatch(searchPlz(plz))
+    // }, 1000)
   }
   render() {
     const { name, plz, dispatch } = this.props
@@ -55,7 +75,7 @@ class Kunde extends Component {
         <div className="kunde">
           <div className="kunde__eingabe">
             <label>
-              Postleitzahl
+              Postleitzahl ({String((plz ? String(plz) : '').length)} / 5): {''}
               <input
                 value={plz || ''}
                 onChange={event => {
@@ -65,7 +85,7 @@ class Kunde extends Component {
               />
             </label>
             <label>
-              Name
+              Name: {' '}
               <input
                 value={name || ''}
                 onChange={event => {

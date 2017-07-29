@@ -13,14 +13,20 @@ import { margeVonPreis, preisVonMarge } from '../../../logic/preis'
 import gesamtZeit from '../../../logic/gesamtZeit'
 
 class Preis extends Component {
+  // constructor (props) {
+  //   super(props)
+  // }
   changeAusgehandelterPreis = event => {
     // TODO: add ausgehandelterPreis to redux
     const value = event.target.value
     const preis = parseFloat(value)
+    // this.props.dispatch(changeAusgehandelterPreis(preis))
+  }
+  preisSetzen = () => {
+    const value = this.ausgehandelterPreisInput.value
+    const preis = runden(parseFloat(value))
+    // this.setState({ ausgehandelterPreis: value })
     this.props.dispatch(changeAusgehandelterPreis(preis))
-    // this.setState({
-    //   ausgehandelterPreis: value
-    // })
   }
   render() {
     const {
@@ -49,26 +55,29 @@ class Preis extends Component {
         </div>
         <div>
           <Marge {...this.props} />
-          <p>
+          <p className="mindestpreis">
             Mindestpreis (mit anfahrt, stundenlohn, ... + 5% Marge):{' '}
             {mindestpreis.toFixed(2)} €
           </p>
 
           <hr />
 
-          <div>
-            <Speech text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor." />
-            <label>
+          <div className="preis_setzen">
+            <Speech text="Gib hier den Preis ein, den du mit dem Kunden ausgehandelt hast." />
+            <label className="preis_setzen__label">
               Ausgehandelter Preis:
               <input
-                value={ausgehandelter_preis || ''}
-                onChange={this.changeAusgehandelterPreis}
+                ref={e => {
+                  this.ausgehandelterPreisInput = e
+                }}
               />
             </label>
-            <button>Setzen</button>
+            <button onClick={this.preisSetzen} className="preis_setzen__button">
+              Setzen
+            </button>
             {/* TODO: add to redux if button is pressed  */}
             <p>
-              {runden(ausgehandelter_preis)} €
+              Gesetzter Preis (speziell gerundet): {ausgehandelter_preis || 0} €
             </p>
           </div>
         </div>
