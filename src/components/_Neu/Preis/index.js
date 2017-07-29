@@ -6,23 +6,21 @@ import getGesamtZeit from '../../../logic/gesamtZeit'
 import './index.css'
 import Speech from '../../Speech'
 import Marge from '../../Marge'
+import { changeAusgehandelterPreis } from '../../../state/auftrag/actions'
+import runden from '../../../logic/runden'
 
 import { margeVonPreis, preisVonMarge } from '../../../logic/preis'
 import gesamtZeit from '../../../logic/gesamtZeit'
 
 class Preis extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      ausgehandelterPreis: ''
-    }
-  }
   changeAusgehandelterPreis = event => {
     // TODO: add ausgehandelterPreis to redux
     const value = event.target.value
-    this.setState({
-      ausgehandelterPreis: value
-    })
+    const preis = parseFloat(value)
+    this.props.dispatch(changeAusgehandelterPreis(preis))
+    // this.setState({
+    //   ausgehandelterPreis: value
+    // })
   }
   render() {
     const {
@@ -30,9 +28,9 @@ class Preis extends Component {
       gesamt_preis,
       gesamt_zeit,
       mindestpreis,
-      marge
+      marge,
+      ausgehandelter_preis
     } = this.props
-    const { ausgehandelterPreis } = this.state
     return (
       <Container routeName="preis">
         <div>
@@ -42,7 +40,7 @@ class Preis extends Component {
           </pre>
           <div>
             <p>
-              Gesamter Preis (vereinfacht): {gesamt_preis} €
+              Gesamter Preis (bruttopreise addiert): {runden(gesamt_preis)} €
             </p>
             <p>
               Gesamte Zeit: {gesamt_zeit} minuten
@@ -63,10 +61,15 @@ class Preis extends Component {
             <label>
               Ausgehandelter Preis:
               <input
-                value={ausgehandelterPreis}
+                value={ausgehandelter_preis || ''}
                 onChange={this.changeAusgehandelterPreis}
               />
             </label>
+            <button>Setzen</button>
+            {/* TODO: add to redux if button is pressed  */}
+            <p>
+              {runden(ausgehandelter_preis)} €
+            </p>
           </div>
         </div>
       </Container>
@@ -98,16 +101,18 @@ const konstanten = {
 //   fahrstrecke: 49.135 // km
 // }
 const mapStateToProps = state => ({
-  objekte: state.objekte,
-  gesamt_preis: getGesamtPreis(state.objekte),
-  gesamt_zeit: getGesamtZeit(state.objekte),
+  objekte: state.auftrag.objekte,
+  gesamt_preis: getGesamtPreis(state.auftrag.objekte),
+  gesamt_zeit: getGesamtZeit(state.auftrag.objekte),
+
+  ausgehandelter_preis: state.auftrag.ausgehandelter_preis,
 
   mindestpreis: preisVonMarge(
     konstanten,
     {
       fahrzeit: 40.266666,
       fahrstrecke: 49.135,
-      arbeitszeit: gesamtZeit(state.objekte)
+      arbeitszeit: gesamtZeit(state.auftrag.objekte)
     },
     0.05
   )

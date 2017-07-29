@@ -2,14 +2,16 @@ import React from 'react'
 import Container from '../../Container'
 import { connect } from 'react-redux'
 import getGesamtZeit from '../../../logic/gesamtZeit'
+import runden from '../../../logic/runden'
 
 import moment from 'moment'
 import 'moment/locale/de'
 moment.locale('de')
 
-const anmerkung = ({ name, objekte }) => {
+const anmerkung = ({ name, objekte, ausgehandelter_preis }) => {
   const mitarbeiter = 'Marc Petersmann'
-  const preis = 1234
+
+  const preis = runden(ausgehandelter_preis)
 
   const zeit = getGesamtZeit(objekte) // minuten
   const duration = moment.duration(zeit, 'minutes')
@@ -25,8 +27,12 @@ const anmerkung = ({ name, objekte }) => {
   // })
   const reinigungsobjekte = objekte
     .map(objekt => {
-      let qm = objekt.qm ? ` (${objekt.qm} qm)` : ''
-      return `1 x ${objekt.name}${qm}`
+      let qm = objekt.qm ? `${objekt.qm} qm` : null
+      let kissen = objekt.abnehmbare_kissen ? `mit abnehmbaren kissen` : null
+
+      let options = [kissen, qm].filter(e => !!e).join(', ')
+      let klammern = options.length ? ` (${options})` : ''
+      return `1 x ${objekt.name}${klammern}`
     })
     .join('\n')
 
@@ -71,8 +77,6 @@ const Fertig = ({ state }) =>
   </Container>
 
 const mapStateToProps = state => {
-  return {
-    state
-  }
+  return { state: state.auftrag }
 }
 export default connect(mapStateToProps)(Fertig)

@@ -25,6 +25,18 @@ class Objekte extends Component {
     })
     this.props.dispatch(addObjekt(produkt))
   }
+  kissenAendern = (produkt, index) => event => {
+    const checked = event.target.checked
+    this.props.dispatch(
+      changeObjekt(
+        {
+          ...produkt,
+          abnehmbare_kissen: checked
+        },
+        index
+      )
+    )
+  }
   qmAendern = (produkt, index) => event => {
     const qm = event.target.value
     this.props.dispatch(
@@ -75,6 +87,17 @@ class Objekte extends Component {
             einzelpreis_netto: 7,
             einzelpreis_brutto: 7,
             einzelzeit: 10
+          }
+        ]
+      },
+      {
+        name: 'Addons',
+        produkte: [
+          {
+            name: 'Geruchsneutralisierung Partiel',
+            einzelpreis_netto: 16.8067,
+            einzelpreis_brutto: 20,
+            einzelzeit: 15
           }
         ]
       }
@@ -147,6 +170,7 @@ class Objekte extends Component {
               <tr className="header">
                 <th>Name</th>
                 <th>(qm)</th>
+                <th>(abnehmbare Kissen)</th>
                 <th>Preis</th>
                 <th>Aktionen</th>
               </tr>
@@ -159,11 +183,19 @@ class Objekte extends Component {
                       <td>
                         {objekt.qm !== undefined
                           ? <input
+                              style={{ width: 50 }}
                               value={objekt.qm || ''}
                               placeholder="1"
                               onChange={this.qmAendern(objekt, i)}
                             />
                           : null}
+                      </td>
+                      <td>
+                        <input
+                          checked={objekt.abnehmbare_kissen || false}
+                          type="checkbox"
+                          onChange={this.kissenAendern(objekt, i)}
+                        />
                       </td>
                       <td>
                         {objekt.qm
@@ -179,10 +211,10 @@ class Objekte extends Component {
                     </tr>
                   )
                 : <tr>
-                    <td colSpan="4">Noch keine Objekte</td>
+                    <td colSpan="5">Noch keine Objekte</td>
                   </tr>}
               <tr className="gesamt">
-                <td colSpan="4">
+                <td colSpan="5">
                   Gesamt: {this.props.gesamt_preis} € - {this.props.gesamt_zeit}{' '}
                   minuten
                 </td>
@@ -196,8 +228,8 @@ class Objekte extends Component {
 }
 
 const mapStateToProps = state => ({
-  objekte: state.objekte,
-  gesamt_preis: getGesamtPreis(state.objekte),
-  gesamt_zeit: getGesamtZeit(state.objekte)
+  objekte: state.auftrag.objekte,
+  gesamt_preis: getGesamtPreis(state.auftrag.objekte),
+  gesamt_zeit: getGesamtZeit(state.auftrag.objekte)
 })
 export default connect(mapStateToProps)(Objekte)

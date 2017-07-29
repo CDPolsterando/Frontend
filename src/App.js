@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import './App.css'
 
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import reducer from './state/auftrag/reducer'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import auftragReducer from './state/auftrag/reducer'
+import networkReducer from './state/network/reducer'
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Layout from './components/Layout'
@@ -15,9 +16,26 @@ import Neu_Fertig from './components/_Neu/Fertig'
 import Neu_Preis from './components/_Neu/Preis'
 // _Existierend
 
+import promiseMiddleware from 'redux-promise-middleware'
+
+// composeStoreWithMiddleware = applyMiddleware(promiseMiddleware())(createStore)
+
+const middleware = compose(
+  applyMiddleware(promiseMiddleware()),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+)
+const reducers = combineReducers({
+  auftrag: auftragReducer,
+  network: networkReducer
+})
 let store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  reducers,
+  middleware
+  // applyMiddleware(
+  //   window.__REDUX_DEVTOOLS_EXTENSION__ &&
+  //     window.__REDUX_DEVTOOLS_EXTENSION__(),
+  //   promiseMiddleware
+  // )
 )
 
 const NoMatch = () =>

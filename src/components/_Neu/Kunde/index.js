@@ -1,12 +1,52 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { changeName, changePlz } from '../../../state/auftrag/actions'
+import {
+  changeName,
+  changePlz,
+  changeStandort
+} from '../../../state/auftrag/actions'
 
 import Container from '../../Container'
 import { Link } from 'react-router-dom'
 import './index.css'
 
+// const searchPlz = plz => ({
+//   type: 'SEARCH_PLZ',
+//   payload: fetch('http://192.168.8.100:5010/dis?zip=' + plz)
+// })
+
 class Kunde extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      standort: null
+    }
+    this.typingTimer
+  }
+  searchPlz(plz) {
+    clearTimeout(this.typingTimer)
+    this.typingTimer = setTimeout(() => {
+      // console.log('yes')
+
+      fetch('http://192.168.8.100:5010/dis?zip=' + plz)
+        .then(res => res.json())
+        .then(standort => {
+          this.props.dispatch(
+            changeStandort({
+              fahrzeit: standort.Zeit,
+              fahrstrecke: standort.Strecke
+            })
+          )
+          console.log('standort: ', standort)
+          this.setState({ standort })
+        })
+        .catch(err => {
+          console.error('Error while fetching standort: ', err)
+        })
+
+      // this.props.dispatch(searchPlz(plz))
+    }, 1000)
+  }
   render() {
     const { name, plz, dispatch } = this.props
     return (
@@ -14,6 +54,16 @@ class Kunde extends Component {
         <div />
         <div className="kunde">
           <div className="kunde__eingabe">
+            <label>
+              Postleitzahl
+              <input
+                value={plz || ''}
+                onChange={event => {
+                  this.searchPlz(event.target.value)
+                  dispatch(changePlz(event.target.value))
+                }}
+              />
+            </label>
             <label>
               Name
               <input
@@ -23,16 +73,10 @@ class Kunde extends Component {
                 }}
               />
             </label>
-            <label>
-              Postleitzahl
-              <input
-                value={plz || ''}
-                onChange={event => {
-                  dispatch(changePlz(event.target.value))
-                }}
-              />
-            </label>
           </div>
+          <pre>
+            {JSON.stringify(this.state.standort, null, 2)}
+          </pre>
         </div>
       </Container>
     )
@@ -56,9 +100,7 @@ class Kunde extends Component {
 //   </Container>
 
 const mapStateToProps = state => {
-  return {
-    name: state.name,
-    plz: state.plz
-  }
+  // console.log(state)
+  return { name: state.auftrag.name, plz: state.auftrag.plz }
 }
 export default connect(mapStateToProps)(Kunde)

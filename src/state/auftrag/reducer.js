@@ -13,7 +13,9 @@ import {
   CHANGE_PLZ,
   ADD_OBJECT,
   CHANGE_OBJECT,
-  REMOVE_OBJECT
+  REMOVE_OBJECT,
+  CHANGE_AUSGEHANDELTER_PREIS,
+  CHANGE_STANDORT
 } from './actionTypes'
 
 function guid() {
@@ -39,33 +41,24 @@ function guid() {
 const initialState = {
   name: null,
   plz: null,
-  objekte: []
+  objekte: [],
+  ausgehandelter_preis: null,
+  fahrzeit: null,
+  fahrstrecke: null
 }
 function reducer(state = initialState, action) {
   switch (action.type) {
     case CHANGE_NAME: {
-      return {
-        ...state,
-        name: action.name
-      }
+      return { ...state, name: action.name }
     }
     case CHANGE_PLZ: {
       const plz = parseInt(action.plz, 10)
-      return {
-        ...state,
-        plz
-      }
+      return { ...state, plz }
     }
     case ADD_OBJECT: {
       return {
         ...state,
-        objekte: [
-          ...state.objekte,
-          {
-            ...action.objekt,
-            key: guid()
-          }
-        ]
+        objekte: [...state.objekte, { ...action.objekt, key: guid() }]
       }
     }
     case CHANGE_OBJECT: {
@@ -87,6 +80,19 @@ function reducer(state = initialState, action) {
         })
       }
     }
+    case CHANGE_AUSGEHANDELTER_PREIS: {
+      return { ...state, ausgehandelter_preis: action.preis }
+    }
+    case CHANGE_STANDORT: {
+      return {
+        ...state,
+        fahrzeit: action.fahrzeit,
+        fahrstrecke: action.fahrstrecke
+      }
+    }
+    // case 'SEARCH_PLZ_FULFILLED': {
+    //   return { ...state, standort_loading: false, standort_data: action.payload, standort_error: null }
+    // }
     default: {
       return state
     }
