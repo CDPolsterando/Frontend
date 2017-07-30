@@ -68,6 +68,15 @@ const Fertig = ({ state }) =>
       <p>
         PLZ: {state.plz}
       </p>
+      <p>
+        Standort: {state.standort_stadt}
+      </p>
+      <p>
+        Fahrstrecke: {state.fahrstrecke} km
+      </p>
+      <p>
+        Fahrzeit: {state.fahrzeit} minuten
+      </p>
     </div>
     <div>
       <pre>

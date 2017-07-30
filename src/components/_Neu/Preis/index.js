@@ -90,7 +90,11 @@ class Preis extends Component {
             </button>
             {/* TODO: add to redux if button is pressed  */}
             <p>
-              Gesetzter Preis (speziell gerundet): {ausgehandelter_preis || 0} €
+              Gesetzter Preis (speziell gerundet):{' '}
+              {ausgehandelter_preis === 109.87
+                ? ausgehandelter_preis + ' (mindestpreis)'
+                : ausgehandelter_preis}{' '}
+              €
             </p>
           </div>
         </div>
@@ -122,21 +126,25 @@ const konstanten = {
 //   fahrzeit: 40.266666, // minuten
 //   fahrstrecke: 49.135 // km
 // }
-const mapStateToProps = state => ({
-  objekte: state.auftrag.objekte,
-  gesamt_preis: getGesamtPreis(state.auftrag.objekte),
-  gesamt_zeit: getGesamtZeit(state.auftrag.objekte),
-
-  ausgehandelter_preis: state.auftrag.ausgehandelter_preis,
-
-  mindestpreis: preisVonMarge(
-    konstanten,
-    {
-      fahrzeit: 40.266666,
-      fahrstrecke: 49.135,
-      arbeitszeit: gesamtZeit(state.auftrag.objekte)
-    },
-    0.05
-  )
-})
+const mapStateToProps = state => {
+  if (!state.auftrag.fahrzeit || !state.auftrag.fahrstrecke) {
+    console.error('fahrzeit und fahrstrecke müssen gesetzt sein!')
+    alert('fahrzeit und fahrstrecke müssen gesetzt sein!')
+  }
+  return {
+    objekte: state.auftrag.objekte,
+    gesamt_preis: getGesamtPreis(state.auftrag.objekte),
+    gesamt_zeit: getGesamtZeit(state.auftrag.objekte),
+    ausgehandelter_preis: state.auftrag.ausgehandelter_preis,
+    mindestpreis: preisVonMarge(
+      konstanten,
+      {
+        fahrzeit: state.auftrag.fahrzeit,
+        fahrstrecke: state.auftrag.fahrstrecke, // fahrstrecke: 49.135, // fahrzeit: 40.266666,
+        arbeitszeit: gesamtZeit(state.auftrag.objekte)
+      },
+      0.05
+    )
+  }
+}
 export default connect(mapStateToProps)(Preis)
