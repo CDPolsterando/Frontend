@@ -20,7 +20,9 @@ const mapStateToProps = state => {
   return {
     loading: state.network.standort_loading,
     error: state.network.standort_error,
-    standort: {}
+    fahrzeit: state.auftrag.fahrzeit,
+    fahrstrecke: state.auftrag.fahrstrecke,
+    standort_stadt: state.auftrag.standort_stadt
   }
 }
 export default connect(mapStateToProps)(Container)

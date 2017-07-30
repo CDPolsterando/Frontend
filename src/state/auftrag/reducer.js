@@ -44,7 +44,8 @@ const initialState = {
   objekte: [],
   ausgehandelter_preis: null,
   fahrzeit: null,
-  fahrstrecke: null
+  fahrstrecke: null,
+  standort_stadt: null
 }
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -87,7 +88,8 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         fahrzeit: action.fahrzeit,
-        fahrstrecke: action.fahrstrecke
+        fahrstrecke: action.fahrstrecke,
+        standort_stadt: action.standort_stadt
       }
     }
     // case 'SEARCH_PLZ_FULFILLED': {

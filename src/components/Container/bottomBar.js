@@ -3,7 +3,14 @@ import { NavLink } from 'react-router-dom'
 
 const routes = ['kunde', 'objekte', 'preis', 'fertig']
 
-const BottomBar = ({ routeName, loading, error }) => {
+const BottomBar = ({
+  routeName,
+  loading,
+  error,
+  fahrzeit,
+  fahrstrecke,
+  standort_stadt
+}) => {
   const index = routes.indexOf(routeName)
 
   const previous = routes[index - 1]
@@ -16,6 +23,12 @@ const BottomBar = ({ routeName, loading, error }) => {
     item = (
       <span>
         Fehler bei berechnung: {error}
+      </span>
+    )
+  } else if (fahrstrecke && fahrzeit) {
+    item = (
+      <span>
+        {standort_stadt} - {fahrstrecke}km - {fahrzeit}min
       </span>
     )
   } else {

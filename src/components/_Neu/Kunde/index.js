@@ -7,7 +7,7 @@ import {
 } from '../../../state/auftrag/actions'
 
 import Container from '../../Container'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import './index.css'
 
 // const searchPlz = plz => ({
@@ -25,20 +25,32 @@ class Kunde extends Component {
   }
   searchPlz(plz) {
     if (plz.length === 5) {
+      const standort = { Zeit: 40, Strecke: 10, Stadt: 'Koeln' }
+      const {
+        Zeit: fahrzeit,
+        Strecke: fahrstrecke,
+        Stadt: standort_stadt
+      } = standort
+
       this.props.dispatch({ type: 'STANDORT_BERECHNEN' })
 
       setTimeout(() => {
         this.props.dispatch({ type: 'STANDORT_FERTIG' })
-
+        this.props.dispatch(
+          changeStandort({
+            fahrzeit,
+            fahrstrecke,
+            standort_stadt
+          })
+        )
         // TODO: set zeit & streck for other reducer
 
         // this.props.dispatch({ type: 'STANDORT_FERTIG' })
-      }, 1000)
+      }, 5000)
 
       // fetch('http://192.168.8.100:5010/dis?zip=' + plz)
       //   .then(res => res.json())
       //   .then(standort => {
-      const standort = { Zeit: 40, Strecke: 10, Stadt: 'Koeln' }
 
       this.setState({ standort })
       // })

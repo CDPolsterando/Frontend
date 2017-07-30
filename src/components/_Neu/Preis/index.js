@@ -9,19 +9,19 @@ import Marge from '../../Marge'
 import { changeAusgehandelterPreis } from '../../../state/auftrag/actions'
 import runden from '../../../logic/runden'
 
-import { margeVonPreis, preisVonMarge } from '../../../logic/preis'
+import { preisVonMarge } from '../../../logic/preis'
 import gesamtZeit from '../../../logic/gesamtZeit'
 
 class Preis extends Component {
   // constructor (props) {
   //   super(props)
   // }
-  changeAusgehandelterPreis = event => {
-    // TODO: add ausgehandelterPreis to redux
-    const value = event.target.value
-    const preis = parseFloat(value)
-    // this.props.dispatch(changeAusgehandelterPreis(preis))
-  }
+  // changeAusgehandelterPreis = event => {
+  //   // TODO: add ausgehandelterPreis to redux
+  //   // const value = event.target.value
+  //   // const preis = parseFloat(value)
+  //   // this.props.dispatch(changeAusgehandelterPreis(preis))
+  // }
   preisSetzen = () => {
     const value = this.ausgehandelterPreisInput.value
     const preis = runden(parseFloat(value))
@@ -34,15 +34,28 @@ class Preis extends Component {
       gesamt_preis,
       gesamt_zeit,
       mindestpreis,
-      marge,
+      // marge,
       ausgehandelter_preis
     } = this.props
+
+    const reinigungsobjekte = objekte
+      .map(objekt => {
+        let qm = objekt.qm ? `${objekt.qm} qm` : null
+        let kissen = objekt.abnehmbare_kissen ? `mit abnehmbaren kissen` : null
+
+        let options = [kissen, qm].filter(e => !!e).join(', ')
+        let klammern = options.length ? ` (${options})` : ''
+        return `1 x ${objekt.name}${klammern}`
+      })
+      .join('\n')
+
     return (
       <Container routeName="preis">
         <div>
           <h2>Übersicht Objekte</h2>
           <pre>
-            {JSON.stringify(objekte, null, 2)}
+            {reinigungsobjekte}
+            {/* {JSON.stringify(objekte, null, 2)} */}
           </pre>
           <div>
             <p>

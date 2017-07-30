@@ -1,5 +1,5 @@
-import { PENDING, FULFILLED, REJECTED } from 'redux-promise-middleware'
-import { SEARCH_PLZ } from './actionTypes'
+// import { PENDING, FULFILLED, REJECTED } from 'redux-promise-middleware'
+// import { SEARCH_PLZ } from './actionTypes'
 
 const initialState = {
   standort_loading: false,

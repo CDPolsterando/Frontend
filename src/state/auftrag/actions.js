@@ -18,10 +18,11 @@ export const changePlz = plz => ({
   plz
 })
 
-export const changeStandort = ({ fahrzeit, fahrstrecke }) => ({
+export const changeStandort = ({ fahrzeit, fahrstrecke, standort_stadt }) => ({
   type: CHANGE_STANDORT,
   fahrzeit,
-  fahrstrecke
+  fahrstrecke,
+  standort_stadt
 })
 
 export const addObjekt = objekt => ({
