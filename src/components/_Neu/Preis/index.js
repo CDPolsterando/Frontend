@@ -136,6 +136,10 @@ const mapStateToProps = state => {
     gesamt_preis: getGesamtPreis(state.auftrag.objekte),
     gesamt_zeit: getGesamtZeit(state.auftrag.objekte),
     ausgehandelter_preis: state.auftrag.ausgehandelter_preis,
+
+    fahrzeit: state.auftrag.fahrzeit,
+    fahrstrecke: state.auftrag.fahrstrecke,
+
     mindestpreis: preisVonMarge(
       konstanten,
       {

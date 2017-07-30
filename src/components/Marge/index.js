@@ -24,9 +24,19 @@ class Marge extends Component {
     }
   }
   onChangePreis = preis => event => {
+    const { fahrstrecke, fahrzeit } = this.props
+    if (!fahrstrecke || !fahrzeit) {
+      console.error('Marge: fahrstrecke and fahrzeit need to be set!')
+    }
+
     const variablen = {
-      fahrzeit: 40.266666,
-      fahrstrecke: 49.135,
+      fahrstrecke,
+      fahrzeit,
+      // fahrzeit: 40.266666,
+      // fahrstrecke: 49.135,
+
+      // TODO: from redux
+
       arbeitszeit: gesamtZeit(this.props.objekte)
     }
 
@@ -42,9 +52,16 @@ class Marge extends Component {
     })
   }
   onChangeMarge = marge => event => {
+    const { fahrstrecke, fahrzeit } = this.props
+    if (!fahrstrecke || !fahrzeit) {
+      console.error('Marge: fahrstrecke and fahrzeit need to be set!')
+    }
+
     const variablen = {
-      fahrzeit: 40.266666,
-      fahrstrecke: 49.135,
+      fahrstrecke,
+      fahrzeit,
+      // fahrzeit: 40.266666,
+      // fahrstrecke: 49.135,
       arbeitszeit: gesamtZeit(this.props.objekte)
     }
 
