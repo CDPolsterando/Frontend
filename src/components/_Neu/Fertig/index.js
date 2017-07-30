@@ -28,9 +28,14 @@ const anmerkung = ({ name, objekte, ausgehandelter_preis }) => {
   const reinigungsobjekte = objekte
     .map(objekt => {
       let qm = objekt.qm ? `${objekt.qm} qm` : null
-      let kissen = objekt.abnehmbare_kissen ? `mit abnehmbaren kissen` : null
+      let kissen_klein = objekt.abnehmbare_kissen_klein
+        ? `mit kleinen abnehmbaren kissen`
+        : null
+      let kissen_groß = objekt.abnehmbare_kissen_groß
+        ? `mit großen abnehmbaren kissen`
+        : null
 
-      let options = [kissen, qm].filter(e => !!e).join(', ')
+      let options = [kissen_klein, kissen_groß, qm].filter(e => !!e).join(', ')
       let klammern = options.length ? ` (${options})` : ''
       return `1 x ${objekt.name}${klammern}`
     })

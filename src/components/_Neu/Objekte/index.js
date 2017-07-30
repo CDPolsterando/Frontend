@@ -25,17 +25,17 @@ class Objekte extends Component {
     })
     this.props.dispatch(addObjekt(produkt))
   }
-  kissenAendern = (produkt, index) => event => {
+  kissenAendern = (produkt, index, size) => event => {
     const checked = event.target.checked
-    this.props.dispatch(
-      changeObjekt(
-        {
-          ...produkt,
-          abnehmbare_kissen: checked
-        },
-        index
+    if (size === 'klein') {
+      this.props.dispatch(
+        changeObjekt({ ...produkt, abnehmbare_kissen_klein: checked }, index)
       )
-    )
+    } else {
+      this.props.dispatch(
+        changeObjekt({ ...produkt, abnehmbare_kissen_groß: checked }, index)
+      )
+    }
   }
   qmAendern = (produkt, index) => event => {
     const qm = event.target.value
@@ -191,11 +191,22 @@ class Objekte extends Component {
                           : null}
                       </td>
                       <td>
-                        <input
-                          checked={objekt.abnehmbare_kissen || false}
-                          type="checkbox"
-                          onChange={this.kissenAendern(objekt, i)}
-                        />
+                        <label>
+                          Klein
+                          <input
+                            checked={objekt.abnehmbare_kissen_klein || false}
+                            type="checkbox"
+                            onChange={this.kissenAendern(objekt, i, 'klein')}
+                          />
+                        </label>
+                        <label>
+                          Groß
+                          <input
+                            checked={objekt.abnehmbare_kissen_groß || false}
+                            type="checkbox"
+                            onChange={this.kissenAendern(objekt, i, 'groß')}
+                          />
+                        </label>
                       </td>
                       <td>
                         {objekt.qm
