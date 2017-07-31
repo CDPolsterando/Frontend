@@ -3,22 +3,25 @@ import Container from '../../Container'
 import { connect } from 'react-redux'
 import getGesamtZeit from '../../../logic/gesamtZeit'
 import runden from '../../../logic/runden'
+import { changeNotiz } from '../../../state/auftrag/actions'
 
 import moment from 'moment'
 import 'moment/locale/de'
 moment.locale('de')
 
-const anmerkung = ({ name, objekte, ausgehandelter_preis }) => {
+const anmerkung = ({ name, objekte, ausgehandelter_preis, notiz }) => {
   const mitarbeiter = 'Marc Petersmann'
 
-  const preis = runden(ausgehandelter_preis)
+  const preis = String(runden(ausgehandelter_preis)).replace('.', ',')
 
   const zeit = getGesamtZeit(objekte) // minuten
   const duration = moment.duration(zeit, 'minutes')
 
   // -> https://github.com/moment/moment/issues/1048#issue-19008383
+
+  const hours = Math.floor(duration.asHours())
   const vorgabezeit =
-    Math.floor(duration.asHours()) +
+    (hours.toString().length === 1 ? '0' + hours : hours) +
     moment.utc(duration.asMilliseconds()).format(':mm')
 
   // let reinigungsobjekte = {}
@@ -44,27 +47,49 @@ const anmerkung = ({ name, objekte, ausgehandelter_preis }) => {
   return `
 Gebucht von: ${mitarbeiter}
 
-Preis (brutto):
-${preis} €
-
-
-Vorgabezeit (hh:mm): 
+$
+Preis (brutto): --- In nächste Zeile eintragen $
+${preis}€
+$
+Vorgabezeit: --- In nächste Zeile eintragen Format (hh:mm)$
 ${vorgabezeit}
+$
 
-Reinigungsobjekte (Menge x Art):
+Reinigungsobjekt (Menge x Art):
 ${reinigungsobjekte}
 
 Besonderheiten:
-
+${notiz.length ? notiz : ' /'}
 
 BITTE IMMER FOLGENDE DINGE BEACHTEN:
 
 - MATERIALTEST
 - BODEN-CHECK
-- PÜNKTLICH SEIN  
+- PÜNKTLICH SEIN    
 `
+  //   return `
+  // Gebucht von: ${mitarbeiter}
+
+  // Preis (brutto):
+  // ${preis} €
+
+  // Vorgabezeit (hh:mm):
+  // ${vorgabezeit}
+
+  // Reinigungsobjekte (Menge x Art):
+  // ${reinigungsobjekte}
+
+  // Besonderheiten:
+  // ${notiz.length ? notiz : ' /'}
+
+  // BITTE IMMER FOLGENDE DINGE BEACHTEN:
+
+  // - MATERIALTEST
+  // - BODEN-CHECK
+  // - PÜNKTLICH SEIN
+  // `
 }
-const Fertig = ({ state }) =>
+const Fertig = ({ state, dispatch }) =>
   <Container routeName="fertig">
     <div>
       <p>
@@ -82,6 +107,18 @@ const Fertig = ({ state }) =>
       <p>
         Fahrzeit: {state.fahrzeit} minuten
       </p>
+
+      <textarea
+        placeholder="Schreibe hier eine Notiz für die Reinigungsfachkraft"
+        cols={50}
+        rows={7}
+        value={state.notiz}
+        onChange={event => {
+          const value = event.target.value
+
+          dispatch(changeNotiz(value))
+        }}
+      />
     </div>
     <div>
       <pre>

@@ -15,7 +15,8 @@ import {
   CHANGE_OBJECT,
   REMOVE_OBJECT,
   CHANGE_AUSGEHANDELTER_PREIS,
-  CHANGE_STANDORT
+  CHANGE_STANDORT,
+  CHANGE_NOTIZ
 } from './actionTypes'
 
 function guid() {
@@ -45,7 +46,8 @@ const initialState = {
   ausgehandelter_preis: null,
   fahrzeit: null,
   fahrstrecke: null,
-  standort_stadt: null
+  standort_stadt: null,
+  notiz: ''
 }
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -90,6 +92,12 @@ function reducer(state = initialState, action) {
         fahrzeit: action.fahrzeit,
         fahrstrecke: action.fahrstrecke,
         standort_stadt: action.standort_stadt
+      }
+    }
+    case CHANGE_NOTIZ: {
+      return {
+        ...state,
+        notiz: action.notiz
       }
     }
     // case 'SEARCH_PLZ_FULFILLED': {

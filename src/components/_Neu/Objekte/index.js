@@ -146,7 +146,7 @@ class Objekte extends Component {
     const { objekte } = this.props
     return (
       <Container routeName="objekte">
-        <div>
+        <div className="links">
           {loading ? <p>Loading...</p> : null}
 
           <h2>Produktkatalog</h2>
@@ -163,7 +163,7 @@ class Objekte extends Component {
             </tbody>
           </table>
         </div>
-        <div>
+        <div className="rechts">
           <h2>zu reinigenden Objekte</h2>
           <table className="objekte">
             <tbody>

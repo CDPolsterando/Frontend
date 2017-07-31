@@ -22,7 +22,7 @@ const BottomBar = ({
   } else if (error) {
     item = (
       <span>
-        Fehler bei berechnung: {error}
+        Fehler bei berechnung: {error.message || JSON.stringify(error, null, 2)}
       </span>
     )
   } else if (fahrstrecke && fahrzeit) {

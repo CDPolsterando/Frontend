@@ -5,7 +5,8 @@ import {
   CHANGE_OBJECT,
   REMOVE_OBJECT,
   CHANGE_AUSGEHANDELTER_PREIS,
-  CHANGE_STANDORT
+  CHANGE_STANDORT,
+  CHANGE_NOTIZ
 } from './actionTypes'
 
 export const changeName = name => ({
@@ -42,3 +43,5 @@ export const changeAusgehandelterPreis = preis => ({
   type: CHANGE_AUSGEHANDELTER_PREIS,
   preis
 })
+
+export const changeNotiz = notiz => ({ type: CHANGE_NOTIZ, notiz })

@@ -32,11 +32,6 @@ class Marge extends Component {
     const variablen = {
       fahrstrecke,
       fahrzeit,
-      // fahrzeit: 40.266666,
-      // fahrstrecke: 49.135,
-
-      // TODO: from redux
-
       arbeitszeit: gesamtZeit(this.props.objekte)
     }
 
@@ -60,8 +55,6 @@ class Marge extends Component {
     const variablen = {
       fahrstrecke,
       fahrzeit,
-      // fahrzeit: 40.266666,
-      // fahrstrecke: 49.135,
       arbeitszeit: gesamtZeit(this.props.objekte)
     }
 
@@ -98,9 +91,6 @@ class Marge extends Component {
             d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
           />
         </svg>
-        {/* <div className="arrow">
-          
-        </div> */}
         <label>
           Marge (in %):
           <input value={marge} onChange={this.onChangeMarge(marge)} />

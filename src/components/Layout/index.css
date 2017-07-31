@@ -30,6 +30,36 @@ header nav a.active {
   color: black;
   border-bottom-color: black;
 }
+/* header nav a:after {
+  content: "";
+  background: red;
+  height: 10px;
+  width: 10px;
+}
+header nav a.fertig {
+} */
+
 main {
   padding-top: 30px;
+}
+
+html,
+body,
+#root,
+.layout {
+  height: 100%;
+}
+.layout {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+img.logo_mit_schrift {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 40px;
+  z-index: -1;
+
+  /* border: 1px solid red; */
 }

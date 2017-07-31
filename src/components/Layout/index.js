@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import './index.css'
+// import { connect } from 'react-redux'
 
 const Layout = ({ children, auftragState }) =>
-  <div>
+  <div className="layout">
     <header>
       <Link className="logo" to="/">
         <img src="/logo.png" alt="logo" />
@@ -26,6 +27,20 @@ const Layout = ({ children, auftragState }) =>
     <main>
       {children}
     </main>
+    <img alt="" className="logo_mit_schrift" src="/logo_mit_schrift.jpg" />
   </div>
+
+// const mapStateToProps = state => {
+//   const { name, plz } = state.auftrag
+//   console.log('state: ', state)
+
+//   const kundeFertig = name && String(plz).length === 5
+
+//   return {
+//     kunde: kundeFertig ? 'fertig' : 'nicht-fertig'
+//   }
+// }
+
+// export default connect()(Layout)
 
 export default Layout

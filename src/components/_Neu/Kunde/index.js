@@ -15,44 +15,84 @@ import './index.css'
 //   payload: fetch('http://192.168.8.100:5010/dis?zip=' + plz)
 // })
 
+const fetchPlz = plz => {
+  return fetch('http://192.168.8.168:5010/dis?zip=' + plz).then(res =>
+    res.json()
+  )
+}
+
 class Kunde extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      standort: null
-    }
-    // this.typingTimer
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     // standort: null
+  //   }
+  //   // this.typingTimer
+  // }
   searchPlz(plz) {
     if (plz.length === 5) {
-      const standort = { Zeit: 40, Strecke: 10, Stadt: 'Koeln' }
-      const {
-        Zeit: fahrzeit,
-        Strecke: fahrstrecke,
-        Stadt: standort_stadt
-      } = standort
+      // const standort = { Zeit: 40, Strecke: 10, Stadt: 'Koeln' }
 
       this.props.dispatch({ type: 'STANDORT_BERECHNEN' })
+      fetchPlz(plz)
+        .then(standort => {
+          if (!standort) return
+          const {
+            Zeit: fahrzeit,
+            Strecke: fahrstrecke,
+            Ort: standort_stadt
+          } = standort
 
-      setTimeout(() => {
-        this.props.dispatch({ type: 'STANDORT_FERTIG' })
-        this.props.dispatch(
-          changeStandort({
-            fahrzeit,
-            fahrstrecke,
-            standort_stadt
-          })
-        )
-        // TODO: set zeit & streck for other reducer
+          if (
+            standort_stadt === 'Dresden' &&
+            fahrstrecke === 0 &&
+            fahrzeit === 0
+          ) {
+            console.error(
+              'Error while fetching standort: ',
+              'plz nicht gefunden'
+            )
+            this.props.dispatch({
+              type: 'STANDORT_FEHLER',
+              error: new Error('plz nicht gefunden')
+            })
+            return
+          }
 
-        // this.props.dispatch({ type: 'STANDORT_FERTIG' })
-      }, 5000)
+          // this.setState({ standort })
+          this.props.dispatch({ type: 'STANDORT_FERTIG' })
+          this.props.dispatch(
+            changeStandort({
+              fahrzeit,
+              fahrstrecke,
+              standort_stadt
+            })
+          )
+        })
+        .catch(error => {
+          console.error('Error while fetching standort: ', error)
+          this.props.dispatch({ type: 'STANDORT_FEHLER', error })
+        })
+
+      // setTimeout(() => {
+      //   this.props.dispatch({ type: 'STANDORT_FERTIG' })
+      //   this.props.dispatch(
+      //     changeStandort({
+      //       fahrzeit,
+      //       fahrstrecke,
+      //       standort_stadt
+      //     })
+      //   )
+      // TODO: set zeit & streck for other reducer
+
+      // this.props.dispatch({ type: 'STANDORT_FERTIG' })
+      // }, 5000)
 
       // fetch('http://192.168.8.100:5010/dis?zip=' + plz)
       //   .then(res => res.json())
       //   .then(standort => {
 
-      this.setState({ standort })
+      // this.setState({ standort })
       // })
     }
 
@@ -106,9 +146,9 @@ class Kunde extends Component {
               />
             </label>
           </div>
-          <pre>
+          {/* <pre>
             {JSON.stringify(this.state.standort, null, 2)}
-          </pre>
+          </pre> */}
         </div>
       </Container>
     )
