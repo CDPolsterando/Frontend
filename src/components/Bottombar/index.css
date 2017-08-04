@@ -1,0 +1,46 @@
+.bottombar {
+  background: rgba(256, 256, 256, 0.9);
+  height: 40px;
+  border-top: 1px solid grey;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 9;
+}
+.bottombar,
+.bottombar__middle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bottombar a {
+  color: black;
+  text-decoration: none;
+
+  background: white;
+  border: 1px solid black;
+
+  padding: 5px 10px;
+  margin: 3px 10px;
+  display: block;
+}
+
+.bottombar a.not-disabled {
+  cursor: pointer;
+}
+.bottombar a:hover {
+  background: black;
+  color: white;
+}
+
+.bottombar a.disabled {
+  border-color: grey;
+  cursor: default;
+}
+.bottombar a.disabled:hover {
+  background: grey;
+  color: white;
+}

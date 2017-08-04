@@ -1,0 +1,69 @@
+ul.dataloading {
+  padding: 0;
+  width: 200px;
+
+  background: red;
+}
+ul.dataloading li {
+  list-style: none;
+
+  display: flex;
+  align-items: center;
+  height: 30px;
+
+  background: rgba(250, 250, 250, 1);
+}
+.dataloading__key {
+  text-transform: capitalize;
+  margin: 3px 8px 3px 5px;
+}
+ul.dataloading li svg {
+}
+
+/* - - loading - - */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.dataloading__loading {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(245, 245, 245, 1);
+  border-top: 2px solid #34c06f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+/* - - finished - - */
+.dataloading__finished {
+  fill: #34c06f;
+}
+/* - - error - - */
+.dataloading__error {
+  fill: red;
+}
+
+/* - - swap - - */
+span.dataloading__swap {
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+}
+span.dataloading__swap > span {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+span.dataloading__swap > span:nth-child(2) {
+  display: none;
+}
+span.dataloading__swap:hover > span:nth-child(1) {
+  display: none;
+}
+span.dataloading__swap:hover > span:nth-child(2) {
+  display: flex;
+}

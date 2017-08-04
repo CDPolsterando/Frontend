@@ -11,13 +11,13 @@ import getGesamtPreis from '../../../logic/gesamtPreis'
 import getGesamtZeit from '../../../logic/gesamtZeit'
 
 class Objekte extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      gebuchteObjekte: []
-    }
-    // this.objektHinzufuegen = this.objektHinzufuegen.bind(this)
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     gebuchteObjekte: []
+  //   }
+  //   // this.objektHinzufuegen = this.objektHinzufuegen.bind(this)
+  // }
   objektHinzufuegen = (produkt, weitereAngaben = []) => t => {
     let objekt = produkt
     weitereAngaben.forEach(e => {

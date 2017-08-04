@@ -1,4 +1,4 @@
-import { SEARCH_PLZ } from './actionTypes'
+import {} from './actionTypes'
 
 // export const searchForPlz = plz => ({
 //   type: SEARCH_PLZ,

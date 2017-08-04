@@ -1,0 +1,12 @@
+.customer {
+}
+.customer label,
+.customer input {
+  display: block;
+}
+.customer label {
+  margin: 10px 0;
+}
+.customer input {
+  font-size: 18px;
+}

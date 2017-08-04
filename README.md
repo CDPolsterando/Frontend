@@ -1,4 +1,11 @@
 
 ## TODO
 
-- add addons and pillows to price!
+- refactor logic
+
+[] gesamtPreis -> listPrice
+[] gesamtZeit
+[] preis
+[] runden
+
+- add addons and pillows to price! 

@@ -136,7 +136,7 @@ const konstanten = {
 const mapStateToProps = state => {
   if (!state.auftrag.fahrzeit || !state.auftrag.fahrstrecke) {
     console.error('fahrzeit und fahrstrecke müssen gesetzt sein!')
-    alert('fahrzeit und fahrstrecke müssen gesetzt sein!')
+    // alert('fahrzeit und fahrstrecke müssen gesetzt sein!')
   }
   return {
     objekte: state.auftrag.objekte,
