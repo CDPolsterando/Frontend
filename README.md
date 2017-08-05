@@ -1,11 +1,6 @@
 
-## TODO
+# Pricing Tool - Frontend
 
-- refactor logic
+This project started during a "Code + Design Camp" in Stuttgart and is build with React & Redux.
 
-[] gesamtPreis -> listPrice
-[] gesamtZeit
-[] preis
-[] runden
-
-- add addons and pillows to price! 
+![Screenshot of UI](.github/ui.png)
