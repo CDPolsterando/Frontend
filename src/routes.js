@@ -9,15 +9,24 @@ import Customer from './components/_Steps/Customer'
 import ObjectsCatalog from './components/_Steps/Objects/Catalog'
 import SavedObjects from './components/_Steps/Objects/Saved'
 
+import PriceList from './components/_Steps/Price/List'
+import Calculator from './components/Calculator'
+import MinimumPrice from './components/_Steps/Price/Minimum'
+import SetPrice from './components/_Steps/Price/Set'
+
 import Script from './components/Script'
 import {
   changeName,
   changePlz,
   addObjekt,
   removeObjekt,
-  changeObjekt
+  changeObjekt,
+  changeNegotiatedPrice
 } from './state/auftrag/actions'
 import listPrice from './logic/listPrice'
+import listTime from './logic/listTime'
+import { priceFromMargin } from './logic/price'
+import services from './services'
 
 export default [
   // - - - - - Home - - - - - //
@@ -44,19 +53,23 @@ export default [
     left: ({ state, dispatch }) => {
       const { name, plz } = state.auftrag
 
-      const changeZip = () => null
+      const changeZip = zip => {
+        if (zip.length === 5) {
+          services.getDrivingInfo()
+        }
+        dispatch(changePlz(zip))
+      }
 
       return (
         <Customer
           name={name}
           zip={plz}
           changeName={name => dispatch(changeName(name))}
-          changeZip={zip => dispatch(changePlz(zip))}
+          changeZip={changeZip}
         />
       )
     },
-    right: () => <Script name="step_kunde" />,
-    // right: () => <Script />,
+    right: () => <Script name="step_customer" />,
 
     topbar: true
     // main: () => <Kunde />
@@ -111,15 +124,79 @@ export default [
   },
   // - - - - - Cleaning Process - - - - - //
   {
-    path: '/step/Verfahren',
+    path: '/step/Reinigung',
     name: 'Reinigung', // Reinigungsverfahren
     topbar: true,
-    main: () => null
+    left: () => null,
+    right: () => <Script name="step_cleaning" />
   },
   // - - - - - Price - - - - - //
   {
     path: '/step/Preis',
     name: 'Preis',
+    topbar: true,
+    requirements: state => {
+      const { objekte, driving_duration, driving_distance } = state.auftrag
+
+      const { constants, constants_loading, constants_error } = state.network
+
+      if (
+        objekte.length >= 1 &&
+        (!constants_error && !constants_loading && constants) &&
+        (driving_distance > 0 && driving_duration > 0)
+      )
+        return true
+      return false
+    },
+    left: ({ state }) => {
+      const { objekte, driving_duration, driving_distance } = state.auftrag
+      const { constants } = state.network
+      return (
+        <div style={{ padding: '10px 20px' }}>
+          <PriceList objects={objekte} />
+          <Calculator
+            constants={constants}
+            variables={{
+              driving_duration,
+              driving_distance,
+              work_duration: listTime(objekte)
+            }}
+          />
+        </div>
+      )
+    },
+    right: ({ dispatch, state }) => {
+      const {
+        objekte,
+        driving_duration,
+        driving_distance,
+        negotiated_price
+      } = state.auftrag
+      const { constants } = state.network
+      const variables = {
+        driving_duration,
+        driving_distance,
+        work_duration: listTime(objekte)
+      }
+      const minimumPrice = priceFromMargin(constants, variables, 0.05)
+      return (
+        <div style={{ padding: '10px 20px' }}>
+          <MinimumPrice price={minimumPrice.toFixed(2)} />
+          <hr />
+          <SetPrice
+            negotiated_price={negotiated_price}
+            changeNegotiatedPrice={price =>
+              dispatch(changeNegotiatedPrice(price))}
+          />
+        </div>
+      )
+    }
+    // right: () => <Script name="step_cleaning" />
+  },
+  /*
+  {
+    path: '/step/Preis_old',
+    name: 'Preis (alt)',
     requirementsText: `- name
 - plz für fahrzeit & fahrstrecke
 - zu reinigende objekte
@@ -138,6 +215,7 @@ export default [
     topbar: true,
     main: () => <Preis />
   },
+  */
   // - - - - - (Finish) - - - - - //
   {
     path: '/step/Fertig',

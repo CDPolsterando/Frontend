@@ -16,7 +16,10 @@ import {
   REMOVE_OBJECT,
   CHANGE_AUSGEHANDELTER_PREIS,
   CHANGE_STANDORT,
-  CHANGE_NOTIZ
+  CHANGE_NOTIZ,
+  __CLEAR_CONTRACT__,
+  CHANGE_DRIVING_INFO,
+  CHANGE_NEGOTIATED_PRICE
 } from './actionTypes'
 
 function guid() {
@@ -47,10 +50,34 @@ const initialState = {
   fahrzeit: null,
   fahrstrecke: null,
   standort_stadt: null,
-  notiz: ''
+  notiz: '',
+
+  driving_duration: null,
+  driving_distance: null,
+  negotiated_price: null
 }
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case __CLEAR_CONTRACT__: {
+      return initialState
+    }
+    case CHANGE_DRIVING_INFO: {
+      const { driving_distance, driving_duration } = action
+      return {
+        ...state,
+        driving_distance,
+        driving_duration
+      }
+    }
+    case CHANGE_NEGOTIATED_PRICE: {
+      return {
+        ...state,
+        negotiated_price: action.negotiated_price
+      }
+    }
+
+    // - - - //
+
     case CHANGE_NAME: {
       return { ...state, name: action.name }
     }

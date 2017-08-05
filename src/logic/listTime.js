@@ -1,22 +1,22 @@
 const calculate = ({
   qm,
-  single_price_gross,
+  single_time,
   removable_pillows_small,
   removable_pillows_large
 }) => {
-  let price = qm ? single_price_gross * qm : single_price_gross
+  let time = qm ? single_time * qm : single_time
 
   if (removable_pillows_small) {
-    price = price + 20
+    time = time + 7
   }
   if (removable_pillows_large) {
-    price = price + 40
+    time = time + 10
   }
-  return price
+  return time
 }
 const addUp = (curr, acc) => curr + acc
 
-const listPrice = objects => {
+const listTime = objects => {
   if (Array.isArray(objects)) {
     return objects.map(calculate).reduce(addUp, 0)
   } else if (objects) {
@@ -25,4 +25,4 @@ const listPrice = objects => {
     return 0
   }
 }
-export default listPrice
+export default listTime

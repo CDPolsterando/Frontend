@@ -1,6 +1,7 @@
 import React from 'react'
 // import gesamtPreis from '../../../logic/gesamtPreis'
 import listPrice from '../../../logic/listPrice'
+import listTime from '../../../logic/listTime'
 import './table.css'
 import './Saved.css'
 
@@ -110,7 +111,8 @@ const Saved = ({
             : noObjects}
           <tr className="objects__saved__total">
             <td colSpan="5">
-              Gesamt: {total_price} € - {total_time} minuten
+              Gesamt: {total_price} € - {total_time} minuten <br />
+              Gesamt: {listPrice(objects)} € - {listTime(objects)} minuten
             </td>
           </tr>
         </tbody>

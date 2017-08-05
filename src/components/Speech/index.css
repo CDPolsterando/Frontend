@@ -1,7 +1,14 @@
 .speech {
   position: relative;
-  background: RGBA(213, 213, 213, 1.00);
+  /* background: RGBA(213, 213, 213, 1.00); */
+  background: RGBA(245, 245, 245, 1);
   padding: 5px 8px;
+  border-radius: 5px;
+
+  color: rgba(0, 0, 0, 0.8);
+
+  margin: 10px 20px 40px 20px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 .speech span {
   font-weight: bold;
@@ -10,11 +17,11 @@
 .speech:after {
   content: "";
   position: absolute;
-  bottom: -15px;
-  left: 50px;
-  border-width: 15px 15px 0;
+  bottom: -20px;
+  left: 30px;
+  border-width: 20px 20px 0;
   border-style: solid;
-  border-color: RGBA(213, 213, 213, 1.00) transparent;
+  border-color: RGBA(245, 245, 245, 1) transparent;
   display: block;
   width: 0;
 }

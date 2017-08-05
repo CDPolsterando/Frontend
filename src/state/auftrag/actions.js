@@ -6,7 +6,9 @@ import {
   REMOVE_OBJECT,
   CHANGE_AUSGEHANDELTER_PREIS,
   CHANGE_STANDORT,
-  CHANGE_NOTIZ
+  CHANGE_NOTIZ,
+  CHANGE_DRIVING_INFO,
+  CHANGE_NEGOTIATED_PRICE
 } from './actionTypes'
 
 export const changeName = name => ({
@@ -45,3 +47,15 @@ export const changeAusgehandelterPreis = preis => ({
 })
 
 export const changeNotiz = notiz => ({ type: CHANGE_NOTIZ, notiz })
+
+// - - - //
+
+export const changeDrivingInfo = ({ driving_distance, driving_duration }) => ({
+  type: CHANGE_DRIVING_INFO,
+  driving_distance,
+  driving_duration
+})
+export const changeNegotiatedPrice = negotiated_price => ({
+  type: CHANGE_NEGOTIATED_PRICE,
+  negotiated_price
+})

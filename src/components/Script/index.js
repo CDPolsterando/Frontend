@@ -1,18 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Speech from '../Speech'
 
 const Script = ({ loading, error, text }) =>
-  <div>
-    {loading
-      ? <p>Loading...</p>
-      : error
-        ? <p>
-            Error: {error}
-          </p>
-        : <p>
-            Script: {text}
-          </p>}
-  </div>
+  <Speech
+    text={loading ? 'Loading...' : error ? 'Error: ' + error.message : text}
+  />
+// <div>
+//   {loading
+//     ? <p>Loading...</p>
+//     : error
+//       ? <p>
+//           Error: {error}
+//         </p>
+//       : <p>
+//           {text}
+//         </p>}
+// </div>
 
 const mapStateToProps = (state, props) => {
   const {
@@ -21,9 +25,9 @@ const mapStateToProps = (state, props) => {
     scripts
   } = state.network
 
-  let text = '/'
+  let text = 'Skript wurde noch nicht geladen'
   if (!loading && !error && scripts && props.name) {
-    text = scripts[props.name] || '/'
+    text = scripts[props.name] || 'Skript nicht im Datensatz'
   }
 
   return {

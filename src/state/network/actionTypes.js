@@ -16,4 +16,4 @@ export const DISCOUNTS_START = 'network/DISCOUNTS_START'
 export const DISCOUNTS_END = 'network/DISCOUNTS_END'
 export const DISCOUNTS_ERROR = 'network/DISCOUNTS_ERROR'
 
-export const __CLEAR__ = 'network/__CLEAR__'
+export const __CLEAR_NETWORK__ = 'network/__CLEAR_NETWORK__'

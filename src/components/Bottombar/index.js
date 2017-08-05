@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
 
-const Bottombar = ({ prev = '', next = '' }) =>
+const Bottombar = ({ prev = '', next = '', clearContract }) =>
   <div className="bottombar">
     <Link className={prev ? 'not-disabled' : 'disabled'} to={prev}>
       Zurück
@@ -14,14 +14,21 @@ const Bottombar = ({ prev = '', next = '' }) =>
           event.preventDefault()
           let result = window.confirm('Willst du wirklich abbrechen?')
           if (result) {
-            // TODO: clear redux store
-            console.log('TODO: clear redux store')
+            clearContract()
           }
         }}
       >
         Abbrechen
       </a>
-      <Link to="">Speichern</Link>
+      <a
+        href="#speichern"
+        onClick={event => {
+          event.preventDefault()
+          // TODO: save contract
+        }}
+      >
+        Speichern
+      </a>
     </div>
     <Link className={next ? 'not-disabled' : 'disabled'} to={next}>
       Weiter

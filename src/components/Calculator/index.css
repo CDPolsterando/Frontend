@@ -1,0 +1,35 @@
+.calculator h2 {
+  color: rgba(0, 0, 0, .85);
+  font-family: Lato, Helvetica Neue For Number, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+  margin: 1.6em 0 .6em;
+  font-weight: 500;
+  font-size: 22px;
+}
+.calculator {
+  background: white;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.calculator label {
+  display: block;
+}
+.calculator .error {
+  background: RGBA(255, 59, 59, 1.00);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+.calculator .up {
+  margin-bottom: -4px;
+  margin-top: 5px;
+}
+.calculator .down {
+  margin-top: -4px;
+  margin-bottom: 5px;
+}

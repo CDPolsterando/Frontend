@@ -10,6 +10,7 @@ import Modal from './components/Modal'
 import Requirements from './components/Requirements'
 import Login from './components/Login'
 
+import { __CLEAR_CONTRACT__ } from './state/auftrag/actionTypes'
 import routes from './routes'
 
 const Container = ({ children }) =>
@@ -34,7 +35,7 @@ const Container = ({ children }) =>
     </div>
   </main>
 
-const Router = ({ dispatch, state, location }) => {
+const Router = ({ dispatch, state, location, history }) => {
   const { pathname } = location
   const current = routes.findIndex(route => route.path === pathname)
 
@@ -84,7 +85,14 @@ const Router = ({ dispatch, state, location }) => {
               <img src="/logo.png" />
             </div>
           </Modal>}
-      <Bottombar prev={prev} next={next} />
+      <Bottombar
+        prev={prev}
+        next={next}
+        clearContract={() => {
+          dispatch({ type: __CLEAR_CONTRACT__ })
+          history.push('/')
+        }}
+      />
     </div>
   )
 }

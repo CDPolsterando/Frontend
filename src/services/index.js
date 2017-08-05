@@ -8,6 +8,7 @@ import {
   PRODUCTS_END,
   PRODUCTS_START
 } from '../state/network/actionTypes'
+import { changeDrivingInfo } from '../state/auftrag/actions'
 import { store } from '../App'
 
 class ServicesMock {
@@ -54,6 +55,19 @@ class ServicesMock {
       }, 2000)
     })
   }
+  getDrivingInfo() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const drivingInfo = {
+          driving_distance: 10, // km
+          driving_duration: 8 // minutes
+        }
+
+        store.dispatch(changeDrivingInfo(drivingInfo))
+        resolve(drivingInfo)
+      }, 3000)
+    })
+  }
   getProducts() {
     let products = [
       {
@@ -81,7 +95,8 @@ class ServicesMock {
   }
   getScripts() {
     let scripts = {
-      step_test: 'ansdljapokd'
+      step_customer: 'Skript für "Kunde"',
+      step_cleaning: 'Skript für "Reinigung"'
     }
     store.dispatch({
       type: SCRIPTS_START
@@ -98,8 +113,29 @@ class ServicesMock {
     })
   }
   getConstants() {
+    // const konstanten = {
+    //   // alle einheiten in euro
+    //   stundensatz_fahrt: 10,
+    //   stundensatz_arbeit: 15,
+    //   pauschal_nacharbeit: 5,
+    //   pauschal_reinigunsmittel: 15,
+    //   cost_per_order: 45,
+    //   spritpreis_pro_km: 0.16,
+
+    //   mindest_marge: 0.05 // also 5%
+    // }
+
     let constants = {
-      test: 1
+      wage_ride: 10,
+      wage_work: 15,
+
+      flat_rate_extra_work: 5,
+      flat_rate_cleaning_supplies: 15,
+
+      cost_per_order: 45,
+      price_per_kilometer: 0.16,
+
+      minimum_margin: 0.05 // 5%
     }
     store.dispatch({
       type: CONSTANTS_START
