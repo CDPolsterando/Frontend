@@ -1,9 +1,6 @@
 import React from 'react'
 
-import Kunde from './components/_Neu/Kunde'
-import Objekte from './components/_Neu/Objekte'
-import Preis from './components/_Neu/Preis'
-import Fertig from './components/_Neu/Fertig'
+import Home from './components/Home'
 
 import Customer from './components/_Steps/Customer'
 import ObjectsCatalog from './components/_Steps/Objects/Catalog'
@@ -14,15 +11,19 @@ import Calculator from './components/Calculator'
 import MinimumPrice from './components/_Steps/Price/Minimum'
 import SetPrice from './components/_Steps/Price/Set'
 
+import FinishText from './components/_Steps/Finish/Text'
+import FinishOptions from './components/_Steps/Finish/Options'
+
 import Script from './components/Script'
 import {
   changeName,
-  changePlz,
-  addObjekt,
-  removeObjekt,
-  changeObjekt,
-  changeNegotiatedPrice
-} from './state/auftrag/actions'
+  changeZip,
+  addObject,
+  removeObject,
+  changeObject,
+  changeNegotiatedPrice,
+  changeNote
+} from './state/contract/actions'
 import listPrice from './logic/listPrice'
 import listTime from './logic/listTime'
 import { priceFromMargin } from './logic/price'
@@ -34,7 +35,7 @@ export default [
     path: '/',
     name: 'Home',
     exact: true,
-    main: () => <h2>Home</h2>
+    main: () => <Home />
   },
   // - - - - - Customer - - - - - //
   {
@@ -43,46 +44,42 @@ export default [
     requirementsText: 'Brauche nichts.',
     requirements: state => true,
     finished: state => {
-      const { name } = state.auftrag
+      const { name, zip } = state.contract
       // TODO standort_loading
-      if (name) return true
+      if (name && String(zip).length === 5) return true
 
       return false
     },
-    // step: true,
     left: ({ state, dispatch }) => {
-      const { name, plz } = state.auftrag
-
-      const changeZip = zip => {
-        if (zip.length === 5) {
-          services.getDrivingInfo()
-        }
-        dispatch(changePlz(zip))
-      }
+      const { name, zip } = state.contract
 
       return (
         <Customer
           name={name}
-          zip={plz}
+          zip={zip}
           changeName={name => dispatch(changeName(name))}
-          changeZip={changeZip}
+          changeZip={zip => {
+            if (zip.length === 5) {
+              services.getDrivingInfo()
+            }
+            dispatch(changeZip(zip))
+          }}
         />
       )
     },
     right: () => <Script name="step_customer" />,
-
     topbar: true
-    // main: () => <Kunde />
   },
   // - - - - - Objects - - - - - //
   {
     path: '/step/Objekte',
     name: 'Objekte',
-    requirementsText: 'Brauche nichts.',
+    containerWidth: 95,
+    requirementsText: '/',
     requirements: state => true,
     finished: state => {
-      const { objekte } = state.auftrag
-      if (objekte.length >= 1) return true
+      const { objects } = state.contract
+      if (objects.length > 0) return true
       return false
     },
     topbar: true,
@@ -103,24 +100,23 @@ export default [
       return (
         <ObjectsCatalog
           categories={catalog}
-          addObject={object => dispatch(addObjekt(object))}
+          addObject={object => dispatch(addObject(object))}
         />
       )
     },
     right: ({ state, dispatch }) => {
-      const { objekte } = state.auftrag
+      const { objects } = state.contract
       return (
         <SavedObjects
-          objects={objekte}
-          removeObject={index => dispatch(removeObjekt(index))}
+          objects={objects}
+          removeObject={index => dispatch(removeObject(index))}
           changeObject={(object, index) =>
-            dispatch(changeObjekt(object, index))}
-          total_price={listPrice(objekte)}
+            dispatch(changeObject(object, index))}
+          total_price={listPrice(objects)}
           total_time={0}
         />
       )
     }
-    // main: () => <Objekte />
   },
   // - - - - - Cleaning Process - - - - - //
   {
@@ -135,31 +131,40 @@ export default [
     path: '/step/Preis',
     name: 'Preis',
     topbar: true,
+    requirementsText: `
+objects.length > 0
+constants
+driving_distance > 0
+driving_duration > 0
+`,
     requirements: state => {
-      const { objekte, driving_duration, driving_distance } = state.auftrag
+      const { objects, driving_duration, driving_distance } = state.contract
 
       const { constants, constants_loading, constants_error } = state.network
 
       if (
-        objekte.length >= 1 &&
+        objects.length > 0 &&
         (!constants_error && !constants_loading && constants) &&
         (driving_distance > 0 && driving_duration > 0)
       )
         return true
       return false
     },
+    finished: state => {
+      return state.contract.negotiated_price > 0
+    },
     left: ({ state }) => {
-      const { objekte, driving_duration, driving_distance } = state.auftrag
+      const { objects, driving_duration, driving_distance } = state.contract
       const { constants } = state.network
       return (
         <div style={{ padding: '10px 20px' }}>
-          <PriceList objects={objekte} />
+          <PriceList objects={objects} />
           <Calculator
             constants={constants}
             variables={{
               driving_duration,
               driving_distance,
-              work_duration: listTime(objekte)
+              work_duration: listTime(objects)
             }}
           />
         </div>
@@ -167,16 +172,16 @@ export default [
     },
     right: ({ dispatch, state }) => {
       const {
-        objekte,
+        objects,
         driving_duration,
         driving_distance,
         negotiated_price
-      } = state.auftrag
+      } = state.contract
       const { constants } = state.network
       const variables = {
         driving_duration,
         driving_distance,
-        work_duration: listTime(objekte)
+        work_duration: listTime(objects)
       }
       const minimumPrice = priceFromMargin(constants, variables, 0.05)
       return (
@@ -193,50 +198,50 @@ export default [
     }
     // right: () => <Script name="step_cleaning" />
   },
-  /*
-  {
-    path: '/step/Preis_old',
-    name: 'Preis (alt)',
-    requirementsText: `- name
-- plz für fahrzeit & fahrstrecke
-- zu reinigende objekte
-`,
-    requirements: state => {
-      const { name, plz, objekte } = state.auftrag
-
-      if (plz && name && objekte.length >= 1) return true
-      return false
-    },
-    finished: state => {
-      const { ausgehandelter_preis } = state.auftrag
-      if (ausgehandelter_preis) return true
-      return false
-    },
-    topbar: true,
-    main: () => <Preis />
-  },
-  */
   // - - - - - (Finish) - - - - - //
   {
     path: '/step/Fertig',
     name: 'Fertig',
-    requirementsText: 'ausgehandelter_preis needs to be set',
-    requirements: state => {
-      const { ausgehandelter_preis, name } = state.auftrag
-      if (ausgehandelter_preis && name) return true
-      return false
-    },
-    finished: state => {
-      // const { objekte } = state.auftrag
-      // if (objekte.length >= 1) return true
-      return false
-    },
     topbar: true,
-    main: () => <Fertig />
+    requirementsText: `
+name
+zip
+driving_duration
+driving_distance
+negotiated_price > 0
+objects.length > 0
+`,
+    requirements: state => {
+      const {
+        name,
+        zip,
+        driving_duration,
+        driving_distance,
+        negotiated_price,
+        objects
+      } = state.contract
 
-    // TODO: what about dynamically changing the width
-    // left: () => null,
-    // right: ({state}) => null (normally script)
-    // container: () => ?!
+      if (
+        name &&
+        zip &&
+        driving_duration &&
+        driving_distance &&
+        negotiated_price > 0 &&
+        objects.length > 0
+      )
+        return true
+      return false
+    },
+    left: ({ state, dispatch }) => {
+      return (
+        <FinishOptions
+          changeNote={note => dispatch(changeNote(note))}
+          {...state.contract}
+        />
+      )
+    },
+    right: ({ state }) => {
+      return <FinishText contract={state.contract} />
+    }
   }
 ]

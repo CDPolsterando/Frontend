@@ -4,7 +4,7 @@ import './index.css'
 const Customer = ({ changeZip, changeName, name, zip }) =>
   <div className="customer">
     <label>
-      Postleitzahl:
+      Postleitzahl ({String(zip ? String(zip).length : 0)}/5):
       <input
         value={zip || ''}
         onChange={event => {

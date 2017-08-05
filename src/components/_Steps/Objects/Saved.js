@@ -11,7 +11,6 @@ const ObjectRow = object => {
     qm,
     removable_pillows_small,
     removable_pillows_large,
-    single_price_gross,
     onClickRemove,
     onChangeQm,
     onChangePillows
@@ -27,7 +26,6 @@ const ObjectRow = object => {
           value={qm || ''}
           placeholder="1"
           onChange={onChangeQm}
-          // onChange={this.qmAendern(objekt, i)}
         />
       </td>
       <td>
@@ -111,7 +109,6 @@ const Saved = ({
             : noObjects}
           <tr className="objects__saved__total">
             <td colSpan="5">
-              Gesamt: {total_price} € - {total_time} minuten <br />
               Gesamt: {listPrice(objects)} € - {listTime(objects)} minuten
             </td>
           </tr>

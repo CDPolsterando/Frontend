@@ -32,7 +32,6 @@ class Calculator extends Component {
     })
   }
   render() {
-    const { constants } = this.props
     const { price, margin } = this.state
 
     return (

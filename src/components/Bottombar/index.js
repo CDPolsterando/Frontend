@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
 
-const Bottombar = ({ prev = '', next = '', clearContract }) =>
+const Bottombar = ({ prev = '', next = '', clearContract, saveContract }) =>
   <div className="bottombar">
     <Link className={prev ? 'not-disabled' : 'disabled'} to={prev}>
       Zurück
@@ -24,7 +24,7 @@ const Bottombar = ({ prev = '', next = '', clearContract }) =>
         href="#speichern"
         onClick={event => {
           event.preventDefault()
-          // TODO: save contract
+          saveContract()
         }}
       >
         Speichern

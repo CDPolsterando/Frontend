@@ -8,9 +8,9 @@ export const marginFromPrice = (constants, variables, gross_price) => {
     flat_rate_cleaning_supplies,
 
     cost_per_order,
-    price_per_kilometer,
+    price_per_kilometer
 
-    minimum_margin
+    // minimum_margin
   } = constants
   const { driving_duration, driving_distance, work_duration } = variables
 
@@ -36,9 +36,10 @@ export const priceFromMargin = (constants, variables, margin) => {
     flat_rate_cleaning_supplies,
 
     cost_per_order,
-    price_per_kilometer,
+    price_per_kilometer
 
-    minimum_margin
+    // minimum_margin
+    // TODO: use minimum margin
   } = constants
   const { driving_duration, driving_distance, work_duration } = variables
 

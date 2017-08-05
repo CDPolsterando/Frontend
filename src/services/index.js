@@ -8,7 +8,7 @@ import {
   PRODUCTS_END,
   PRODUCTS_START
 } from '../state/network/actionTypes'
-import { changeDrivingInfo } from '../state/auftrag/actions'
+import { changeDrivingInfo } from '../state/contract/actions'
 import { store } from '../App'
 
 class ServicesMock {
@@ -165,6 +165,16 @@ class ServicesMock {
           discounts
         })
       }, 1000)
+    })
+  }
+
+  saveContract(contract) {
+    console.log('save contract: ', contract)
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(contract)
+      }, 3000)
     })
   }
 }

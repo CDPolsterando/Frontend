@@ -10,10 +10,10 @@ import Modal from './components/Modal'
 import Requirements from './components/Requirements'
 import Login from './components/Login'
 
-import { __CLEAR_CONTRACT__ } from './state/auftrag/actionTypes'
+import { __CLEAR_CONTRACT__ } from './state/contract/actionTypes'
 import routes from './routes'
 
-const Container = ({ children }) =>
+const Container = ({ children, containerWidth = 80 }) =>
   <main
     style={{
       paddingTop: 70, // 60,
@@ -22,7 +22,7 @@ const Container = ({ children }) =>
   >
     <div
       style={{
-        width: '80%',
+        width: containerWidth + '%',
         margin: '0 auto',
         // background: 'rgba(250, 250, 250, 1)',
         borderRadius: 5,
@@ -67,7 +67,7 @@ const Router = ({ dispatch, state, location, history }) => {
                         ? <main style={{ paddingTop: 60, paddingBottom: 50 }}>
                             {route.main()}
                           </main>
-                        : <Container>
+                        : <Container containerWidth={route.containerWidth}>
                             <div style={{ width: '50%' }}>
                               {route.left({ state, dispatch })}
                             </div>
@@ -82,7 +82,7 @@ const Router = ({ dispatch, state, location, history }) => {
           </Switch>
         : <Modal open modal={() => <Login />}>
             <div style={{ paddingTop: 70 }}>
-              <img src="/logo.png" />
+              <img src="/logo.png" alt="" />
             </div>
           </Modal>}
       <Bottombar
@@ -91,6 +91,17 @@ const Router = ({ dispatch, state, location, history }) => {
         clearContract={() => {
           dispatch({ type: __CLEAR_CONTRACT__ })
           history.push('/')
+        }}
+        saveContract={() => {
+          services
+            .saveContract(state.contract)
+            .then(() => {
+              dispatch({ type: __CLEAR_CONTRACT__ })
+              history.push('/')
+            })
+            .catch(err => {
+              console.error('Error while saving contract: ', err)
+            })
         }}
       />
     </div>

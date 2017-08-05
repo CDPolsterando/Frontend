@@ -10,16 +10,18 @@
 // }
 import {
   CHANGE_NAME,
-  CHANGE_PLZ,
+  // CHANGE_PLZ,
   ADD_OBJECT,
   CHANGE_OBJECT,
   REMOVE_OBJECT,
-  CHANGE_AUSGEHANDELTER_PREIS,
-  CHANGE_STANDORT,
-  CHANGE_NOTIZ,
+  // CHANGE_AUSGEHANDELTER_PREIS,
+  // CHANGE_STANDORT,
+  // CHANGE_NOTIZ,
   __CLEAR_CONTRACT__,
   CHANGE_DRIVING_INFO,
-  CHANGE_NEGOTIATED_PRICE
+  CHANGE_NEGOTIATED_PRICE,
+  CHANGE_NOTE,
+  CHANGE_ZIP
 } from './actionTypes'
 
 function guid() {
@@ -44,17 +46,14 @@ function guid() {
 
 const initialState = {
   name: null,
-  plz: null,
-  objekte: [],
-  ausgehandelter_preis: null,
-  fahrzeit: null,
-  fahrstrecke: null,
-  standort_stadt: null,
-  notiz: '',
+  zip: null,
+  objects: [],
+  note: '',
 
   driving_duration: null,
   driving_distance: null,
   negotiated_price: null
+  // TODO: city
 }
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -75,61 +74,44 @@ function reducer(state = initialState, action) {
         negotiated_price: action.negotiated_price
       }
     }
-
-    // - - - //
-
     case CHANGE_NAME: {
       return { ...state, name: action.name }
     }
-    case CHANGE_PLZ: {
-      const plz = parseInt(action.plz, 10)
-      return { ...state, plz }
+    case CHANGE_ZIP: {
+      const zip = parseInt(action.zip, 10)
+      return { ...state, zip }
     }
     case ADD_OBJECT: {
       return {
         ...state,
-        objekte: [...state.objekte, { ...action.objekt, key: guid() }]
+        objects: [...state.objects, { ...action.object, key: guid() }]
       }
     }
     case CHANGE_OBJECT: {
       return {
         ...state,
-        objekte: state.objekte.map((objekt, index) => {
+        objects: state.objects.map((object, index) => {
           if (action.index === index) {
-            return action.objekt
+            return action.object
           }
-          return objekt
+          return object
         })
       }
     }
     case REMOVE_OBJECT: {
       return {
         ...state,
-        objekte: state.objekte.filter((objekt, index) => {
+        objects: state.objects.filter((object, index) => {
           return action.index !== index
         })
       }
     }
-    case CHANGE_AUSGEHANDELTER_PREIS: {
-      return { ...state, ausgehandelter_preis: action.preis }
-    }
-    case CHANGE_STANDORT: {
+    case CHANGE_NOTE: {
       return {
         ...state,
-        fahrzeit: action.fahrzeit,
-        fahrstrecke: action.fahrstrecke,
-        standort_stadt: action.standort_stadt
+        note: action.note
       }
     }
-    case CHANGE_NOTIZ: {
-      return {
-        ...state,
-        notiz: action.notiz
-      }
-    }
-    // case 'SEARCH_PLZ_FULFILLED': {
-    //   return { ...state, standort_loading: false, standort_data: action.payload, standort_error: null }
-    // }
     default: {
       return state
     }
