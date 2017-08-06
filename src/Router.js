@@ -39,8 +39,11 @@ const Router = ({ dispatch, state, location, history }) => {
   const { pathname } = location
   const current = routes.findIndex(route => route.path === pathname)
 
-  let prev = (routes[current - 1] || {}).path
-  let next = (routes[current + 1] || {}).path
+  let prev = routes[current - 1] || {}
+  prev = prev.topbar ? prev.path : '/'
+
+  let next = routes[current + 1] || {}
+  next = next.topbar ? next.path : '/'
 
   return (
     <div>
@@ -93,6 +96,8 @@ const Router = ({ dispatch, state, location, history }) => {
           history.push('/')
         }}
         saveContract={() => {
+          history.push('/speichern')
+
           services
             .saveContract(state.contract)
             .then(() => {

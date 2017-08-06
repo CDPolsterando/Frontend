@@ -9,6 +9,7 @@
     "react-router-dom": "^4.1.2",
     "react-scripts": "^1.0.10",
     "redux": "^3.7.2",
+    "redux-persist": "next",
     "redux-promise-middleware": "^4.3.0",
     "type-check": "^0.3.2"
   },

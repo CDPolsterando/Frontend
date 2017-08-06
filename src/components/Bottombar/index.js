@@ -4,7 +4,7 @@ import './index.css'
 
 const Bottombar = ({ prev = '', next = '', clearContract, saveContract }) =>
   <div className="bottombar">
-    <Link className={prev ? 'not-disabled' : 'disabled'} to={prev}>
+    <Link className={prev !== '/' ? 'not-disabled' : 'disabled'} to={prev}>
       Zurück
     </Link>
     <div className="bottombar__middle">
@@ -30,7 +30,7 @@ const Bottombar = ({ prev = '', next = '', clearContract, saveContract }) =>
         Speichern
       </a>
     </div>
-    <Link className={next ? 'not-disabled' : 'disabled'} to={next}>
+    <Link className={next !== '/' ? 'not-disabled' : 'disabled'} to={next}>
       Weiter
     </Link>
   </div>

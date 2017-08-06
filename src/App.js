@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
 
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/es/storage'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import contractReducer from './state/contract/reducer'
@@ -20,7 +22,14 @@ const reducers = combineReducers({
   contract: contractReducer,
   network: networkReducer
 })
-export let store = createStore(reducers, middleware)
+
+const config = {
+  key: 'root', // key is required
+  storage // storage is now required
+}
+const reducer = persistReducer(config, reducers)
+export let store = createStore(reducer, middleware)
+persistStore(store)
 
 class App extends Component {
   render() {

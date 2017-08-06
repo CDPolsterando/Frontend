@@ -14,6 +14,8 @@ import SetPrice from './components/_Steps/Price/Set'
 import FinishText from './components/_Steps/Finish/Text'
 import FinishOptions from './components/_Steps/Finish/Options'
 
+import SaveContract from './components/SaveContract'
+
 import Script from './components/Script'
 import {
   changeName,
@@ -36,6 +38,10 @@ export default [
     name: 'Home',
     exact: true,
     main: () => <Home />
+
+    // requirements: [
+    //   requirement('price > 0', state => state.x > 0)
+    // ]
   },
   // - - - - - Customer - - - - - //
   {
@@ -243,5 +249,10 @@ objects.length > 0
     right: ({ state }) => {
       return <FinishText contract={state.contract} />
     }
+  },
+  {
+    path: '/speichern',
+    name: 'Speichern',
+    main: () => <SaveContract />
   }
 ]
