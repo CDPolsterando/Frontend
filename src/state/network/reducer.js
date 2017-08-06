@@ -11,7 +11,8 @@ import {
   DISCOUNTS_START,
   PRODUCTS_END,
   PRODUCTS_ERROR,
-  PRODUCTS_START
+  PRODUCTS_START,
+  __CLEAR_NETWORK__
 } from './actionTypes'
 
 const initialState = {
@@ -39,6 +40,10 @@ const initialState = {
 }
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case __CLEAR_NETWORK__: {
+      return initialState
+    }
+
     // - - - - constants - - - - //
     case CONSTANTS_START: {
       return {

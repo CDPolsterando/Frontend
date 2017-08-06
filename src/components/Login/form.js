@@ -27,6 +27,7 @@ const LoginForm = ({ loading, success, error, onLogin, closeError }) => {
           <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
         </svg>
         <p>Eingeloggt</p>
+        <p>Daten laden...</p>
       </div>
     )
   } else if (error) {
@@ -65,9 +66,5 @@ const LoginForm = ({ loading, success, error, onLogin, closeError }) => {
       {elem}
     </div>
   )
-  // return (
-  //   <div className="login">
-  //   </div>
-  // )
 }
 export default LoginForm

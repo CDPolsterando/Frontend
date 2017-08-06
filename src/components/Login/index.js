@@ -7,7 +7,7 @@ import LoginForm from './form'
 class Login extends Component {
   state = {
     loading: false,
-    success: null,
+    success: false,
     error: null
   }
   onLogin = ({ username, password }) => {
@@ -24,9 +24,14 @@ class Login extends Component {
       .then(token => {
         this.setState({ loading: false, success: true })
 
-        Promise.all([services.getScripts()])
+        let waitFor = Object.keys(services.load).map(key =>
+          services.load[key]()
+        )
+
+        Promise.all(waitFor)
           .then(() => {
-            this.props.history.push('/')
+            // console.log('finished')
+            // this.props.history.push('/404')
           })
           .catch(err => {
             console.error('Error while fetching all the data: ', err)
@@ -45,7 +50,6 @@ class Login extends Component {
     })
   }
   render() {
-    console.log(this.props)
     return (
       <LoginForm
         {...this.state}

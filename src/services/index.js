@@ -6,8 +6,10 @@ import {
   DISCOUNTS_START,
   DISCOUNTS_END,
   PRODUCTS_END,
-  PRODUCTS_START
+  PRODUCTS_START,
+  __CLEAR_NETWORK__
 } from '../state/network/actionTypes'
+import { __CLEAR_CONTRACT__ } from '../state/contract/actionTypes'
 import { changeDrivingInfo } from '../state/contract/actions'
 import { store } from '../App'
 
@@ -39,6 +41,13 @@ class ServicesMock {
 
     this._username = null
     localStorage.removeItem('username')
+
+    store.dispatch({
+      type: __CLEAR_NETWORK__
+    })
+    store.dispatch({
+      type: __CLEAR_CONTRACT__
+    })
   }
 
   getToken({ username, password }) {
